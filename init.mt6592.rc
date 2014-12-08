@@ -1,0 +1,8 @@
+on fs
+    write /proc/bootprof "INIT:eMMC:Mount_START"
+    mount_all /fstab.mt6592
+#    mount ext4 /emmc@android /system ro barrier=1
+#    mount ext4 /emmc@cache /cache noatime nosuid nodev wait noauto_da_alloc,discard
+#    mount ext4 /emmc@usrdata /data noatime nosuid nodev wait noauto_da_alloc,discard
+    write /proc/bootprof "INIT:NAND:Mount_END"
+

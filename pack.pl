@@ -27,8 +27,7 @@ my $dir = getcwd;
 repack_boot();
 
 sub repack_boot {
-	my ($ramdiskfile) = @ARGV;
-	my $signature = "RECOVERY";
+	my ($signature, $ramdiskfile) = @ARGV;
 
 	open (RAMDISKFILE, $ramdiskfile) or die colored ("Error: could not open ramdisk file 'ramdisk'", 'red') . "\n";
 	my $ramdisk;

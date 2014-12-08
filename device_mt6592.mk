@@ -15,6 +15,8 @@ else
 endif
 
 PRODUCT_COPY_FILES += \
+    device/mediatek/mt6592/fstab.mt6592:root/fstab.mt6592 \
+    device/mediatek/mt6592/init.mt6592.rc:root/init.mt6592.rc \
     $(LOCAL_KERNEL):kernel
 
 $(call inherit-product, build/target/product/full.mk)
