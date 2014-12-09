@@ -1,8 +1,130 @@
+on init
+    export LD_PRELOAD /system/lib/libxlog.so
+
+    chown system graphics /dev/ion
+    chmod 0644 /dev/ion
+
+    chmod 0660 /dev/mali0
+    chown system graphics /dev/mali0
+
+    chmod 0660 /dev/graphics/fb0
+    chown system graphics /dev/graphics/fb0
+
+    chmod 0660 /dev/mtkfb_vsync
+    chown system graphics /dev/mtkfb_vsync
+
+    chmod 0660 /dev/sw_sync
+    chown system graphics /dev/sw_sync
+
+    chown system system /dev/rtc0
+    chmod 0660 /dev/rtc0
+
+    chown system system /dev/hwmsensor
+    chmod 0660 /dev/hwmsensor
+
+    chown system system /dev/msensor
+    chmod 0660 /dev/msensor
+
+    chown system system /dev/gsensor
+    chmod 0660 /dev/gsensor
+
+    chown radio system /dev/als_ps
+    chmod 0660 /dev/als_ps
+
+    chown system media /dev/MJC
+    chmod 0660 /dev/MJC
+
+    chown root system /dev/devmap
+    chmod 0440 /dev/devmap
+
+    chown bluetooth radio /dev/ttyGS2
+    chmod 0660 /dev/ttyGS2
+    chown system radio /dev/ttyGS3
+    chmod 0660 /dev/ttyGS3
+    chown system /dev/ttyGS0
+    chmod 660 /dev/ttyGS0 
+    chown system /dev/ttyGS1
+    chmod 660 /dev/ttyGS1
+
+    chown bluetooth bluetooth /dev/hid-keyboard
+    chmod 0660 /dev/hid-keyboard
+    
+    chown system media /dev/uibc
+    chmod 0660 /dev/uibc
+    
+    chown system camera /dev/mtk_jpeg
+    chmod 0440 /dev/mtk_jpeg
+    chmod 0440 /dev/mtk_almk
+    chown system system /dev/mtk_disp
+    chmod 0440 /dev/mtk_disp
+
+    chown system camera /dev/camera-sysram
+    chown system camera /dev/camera-isp
+    chown system camera /dev/camera-pipemgr
+
+    chown system camera /dev/kd_camera_hw
+    chmod 0660 /dev/kd_camera_hw
+
+    chown system camera /dev/kd_camera_flashlight    
+    chmod 0660 /dev/kd_camera_flashlight
+
+    chown system camera /dev/kd_camera_hw_bus2
+    chmod 0660 /dev/kd_camera_hw_bus2
+
+    chown system camera /dev/FM50AF
+    chmod 0660 /dev/FM50AF
+
+    chown system system /dev/RT_Monitor
+    chmod 0600 /dev/RT_Monitor
+
+    chown root radio /dev/mt_otg_test
+    chmod 0660 /dev/mt_otg_test
+
+    chown system media /dev/MTK_SMI
+    chmod 0660 /dev/MTK_SMI
+    chown system media /dev/mtk_sched
+    chmod 0660 /dev/mtk_sched
+    chown system media /dev/ebc
+    chmod 0660 /dev/ebc
+
+    chmod 0660 /sys/devices/platform/msensor/driver/cpsopmode
+    chmod 0660 /sys/devices/platform/msensor/driver/cpsreptxy
+    chmod 0660 /sys/devices/platform/msensor/driver/cpsreptz
+    chmod 0660 /sys/devices/platform/gsensor/driver/cpsopmode
+    chmod 0660 /sys/devices/platform/gsensor/driver/cpsrange
+    chmod 0660 /sys/devices/platform/gsensor/driver/cpsbandwidth
+    chmod 0664 /sys/devices/platform/mt-pmic/pmic_access_bank0
+    chmod 0664 /sys/devices/platform/mt-pmic/pmic_access_bank1
+    chmod 0664 /sys/devices/platform/mt6333-user/mt6333_access
+    chmod 0664 /sys/devices/platform/mt-pmic/pmic_access
+    chmod 0664 /sys/bus/platform/drivers/mem_bw_ctrl/concurrency_scenario
+    chmod 0664 /sys/module/lowmemorykiller/parameters/adj
+    chmod 0664 /sys/module/lowmemorykiller/parameters/minfree
+    chmod 0660 /sys/power/autosleep
+    chmod 0660 /sys/power/state
+    chmod 0660 /sys/power/sb_state
+    chmod 0660 /sys/power/wake_lock
+    chmod 0660 /sys/power/wake_unlock
+    chmod 0664 /sys/class/leds/lcd-backlight/brightness
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_rate
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/timer_slack   
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/min_sample_time
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/hispeed_freq
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/target_loads
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/go_hispeed_load
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/above_hispeed_delay
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/boost
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/input_boost
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/boostpulse_duration
+    chmod 0660 /sys/devices/system/cpu/cpufreq/interactive/io_is_busy
+    chmod 0660 /sys/devices/system/cpu/cpufreq/hotplug/cpu_num_base
+    chmod 0660 /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+    chmod 0664 /sys/class/leds/lcd-backlight/brightness
+    chmod 0770 /sys/power/tuxonice
+    chmod 0220 /sys/power/tuxonice/do_hibernate
+
 on fs
     write /proc/bootprof "INIT:eMMC:Mount_START"
     mount_all /fstab.mt6592
-#    mount ext4 /emmc@android /system ro barrier=1
-#    mount ext4 /emmc@cache /cache noatime nosuid nodev wait noauto_da_alloc,discard
-#    mount ext4 /emmc@usrdata /data noatime nosuid nodev wait noauto_da_alloc,discard
     write /proc/bootprof "INIT:NAND:Mount_END"
 
