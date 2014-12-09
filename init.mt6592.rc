@@ -1,5 +1,10 @@
 on init
     export LD_PRELOAD /system/lib/libxlog.so
+    export EXTERNAL_STORAGE /storage/sdcard0
+
+    mkdir /storage/sdcard0 0000 system system
+    symlink /storage/sdcard0 /sdcard
+    symlink /storage/sdcard0 /mnt/sdcard
 
     chown system graphics /dev/ion
     chmod 0644 /dev/ion
