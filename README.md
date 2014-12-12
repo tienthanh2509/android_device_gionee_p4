@@ -1,9 +1,15 @@
-./build/tools/device/mkvendor.sh mediatek mtk6592 /media/sf_Desktop/boot.img
+repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
+
+repo sync
+
+source build/envsetup.sh
 
 lunch cm_mtk6592-eng
 
-. build/tools/device/makerecoveries.sh cm_mtk6592-eng
+# recoveries
+. build/tools/device/makerecoveries.sh cm_mt6592-eng
 
-rm -rf ~/source/cm-11.0/out/target/product/mt6592/{ram*.img,boot.img,root} && mka bootimage && cp ~/source/cm-11.0/out/target/product/mt6592/boot.img /media/sf_Desktop/ && sync
+bootimage
 
+# full build
 brunch cm_mtk6592-eng
