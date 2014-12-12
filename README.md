@@ -8,9 +8,9 @@
     # lunch cm_mtk6592-eng
 
 # recoveries
-. build/tools/device/makerecoveries.sh cm_mt6592-eng
+    # . build/tools/device/makerecoveries.sh cm_mt6592-eng
 
-mka bootimage
+    # mka bootimage
 
 # full build
-brunch cm_mtk6592-eng
+    # brunch cm_mtk6592-eng
