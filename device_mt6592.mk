@@ -20,6 +20,13 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lights.mt6592
 
+PRODUCT_PACKAGES += \
+    audio.primary.default \
+    audio_policy.default
+
+PRODUCT_PACKAGES += \
+    lib_driver_cmd_mt66xx
+
 PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/mtk-kpd.kl:system/usr/keylayout/mtk-kpd.kl
 
