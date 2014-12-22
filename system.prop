@@ -3,4 +3,4 @@
 #
 service.adb.root=1
 ro.sf.lcd_density=480
-
+wifi.interface=wlan0

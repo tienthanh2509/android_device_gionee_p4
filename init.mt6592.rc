@@ -138,7 +138,6 @@ on post-fs-data
     chown dhcp dhcp /data/misc/dhcp
 
 on post-fs
-    rm /dev/wmtWifi
     exec /system/xbin/mknod /dev/wmtWifi c 153 0
     chmod 0660 /dev/wmtWifi
     chown system system /dev/wmtWifi
@@ -169,7 +168,6 @@ on fs
     mount_all /fstab.mt6592
     write /proc/bootprof "INIT:NAND:Mount_END"
 
-# monitor property and power on/off wlan 
 on property:wlan.driver.status=ok
 	write /dev/wmtWifi "1"
 
