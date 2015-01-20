@@ -5,7 +5,7 @@
     
     # source build/envsetup.sh
     
-    # lunch cm_mtk6592-eng
+    # lunch cm_mt6592-eng
 
 # recoveries
     # . build/tools/device/makerecoveries.sh cm_mt6592-eng
@@ -13,4 +13,4 @@
     # mka bootimage
 
 # full build
-    # brunch cm_mtk6592-eng
+    # brunch cm_mt6592-eng
