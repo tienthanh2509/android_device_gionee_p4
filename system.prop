@@ -2,5 +2,6 @@
 # system.prop for mt6592
 #
 service.adb.root=1
-ro.sf.lcd_density=480
+ro.sf.lcd_density=240
 wifi.interface=wlan0
+
