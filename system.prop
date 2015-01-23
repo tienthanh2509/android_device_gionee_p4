@@ -4,4 +4,4 @@
 service.adb.root=1
 ro.sf.lcd_density=240
 wifi.interface=wlan0
-
+qemu.hw.mainkeys=0
