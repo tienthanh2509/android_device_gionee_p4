@@ -25,7 +25,8 @@ PRODUCT_PACKAGES += \
     audio_policy.default
 
 PRODUCT_PACKAGES += \
-    lib_driver_cmd_mt66xx
+    lib_driver_cmd_mt66xx \
+    mtkrilw
 
 PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/mtk-kpd.kl:system/usr/keylayout/mtk-kpd.kl
