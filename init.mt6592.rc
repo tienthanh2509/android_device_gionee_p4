@@ -245,7 +245,7 @@ service iprenew_p2p /system/bin/dhcpcd -n
     disabled
     oneshot
 
-service drvbd /system/xbin/strace -o /data/drvb /system/bin/drvbd
+service drvbd /system/bin/drvbd
     class main
     user system
     group system
@@ -294,7 +294,7 @@ service ccci_fsd /system/bin/ccci_fsd 0
     class core
     oneshot
 
-service ccci_mdinit /system/xbin/strace -o /data/md /system/bin/ccci_mdinit 0
+service ccci_mdinit /system/bin/ccci_mdinit 0
     user root
     group  nvram ccci system
     class core
