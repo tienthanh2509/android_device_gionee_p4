@@ -57,6 +57,8 @@ on init
     
     chown system media /dev/uibc
     chmod 0660 /dev/uibc
+
+    
     
     chown system camera /dev/mtk_jpeg
     chmod 0440 /dev/mtk_jpeg
@@ -137,10 +139,18 @@ on post-fs-data
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     chown dhcp dhcp /data/misc/dhcp
 
+    mkdir /dev/radio 0770 radio radio
+
+    start adbd
+
 on post-fs
     exec /system/xbin/mknod /dev/wmtWifi c 153 0
     chmod 0660 /dev/wmtWifi
     chown system system /dev/wmtWifi
+
+    exec /system/xbin/mknod /dev/Vcodec c 160 0
+    chmod 0660 /dev/Vcodec
+    chown system media /dev/Vcodec
 
     exec /system/xbin/mknod /dev/stpwmt c 190 0
     exec /system/xbin/mknod /dev/stpgps c 191 0
@@ -148,9 +158,19 @@ on post-fs
 
     chmod 0660 /dev/stpwmt
     chown system system /dev/stpwmt
-     
+
     chmod 0660 /dev/wmtdetect
     chown system system /dev/wmtdetect
+
+    mkdir /data/nvram 2770 root nvram
+    chmod 0770 /dev/nvram
+
+    chown ccci ccci /sys/kernel/ccci/boot
+
+    chown radio system /system/etc/ril
+    chmod 0770 /system/etc/ril
+    chmod 0444 /system/etc/ril/oper.lis
+    setprop rild.nw.operlist /system/etc/ril/oper.lis
 
 service wmtLoader /system/bin/logwrapper /system/bin/wmt_loader
     user root
@@ -223,5 +243,77 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
 service iprenew_p2p /system/bin/dhcpcd -n
     class late_start
     disabled
+    oneshot
+
+service drvbd /system/xbin/strace -o /data/drvb /system/bin/drvbd
+    class main
+    user system
+    group system
+
+service nvram_daemon /system/bin/nvram_daemon
+    class main
+    user root
+    group nvram system
+    oneshot
+
+service NvRAMAgent /system/bin/nvram_agent_binder
+     user system
+     group system nvram
+
+#
+# Modem
+#
+
+service gsm0710muxd /system/bin/gsm0710muxd -s /dev/ttyC0 -f 512 -n 8 -m basic
+    class core
+    user root
+    group radio cache inet misc ccci
+    disabled
+
+service gsm0710muxdmd2 /system/bin/gsm0710muxdmd2 -s /dev/ccci2_tty0 -f 512 -n 8 -m basic
+    class core
+    user root
+    group radio cache inet misc ccci
+    disabled
+
+service muxreport-daemon /system/bin/muxreport
+    class core
+    user radio
+    group radio cache inet misc ccci
+    disabled
+    oneshot
+
+service md_minilog_util /system/bin/md_minilog_util
+    user radio
+    disabled
+    oneshot
+
+service ccci_fsd /system/bin/ccci_fsd 0
+    user root
+    group  nvram ccci system
+    class core
+    oneshot
+
+service ccci_mdinit /system/xbin/strace -o /data/md /system/bin/ccci_mdinit 0
+    user root
+    group  nvram ccci system
+    class core
+    oneshot
+
+service pppd_gprs /system/bin/pppd_dt /dev/ttyACM0 debug noauth refuse-eap usepeerdns nodetach
+    user root
+    group radio cache inet misc
+    disabled
+    oneshot
+
+service pppd /system/bin/pppd file /data/misc/ppp/ppp_options
+    user root
+    disabled 
+    oneshot
+
+service terservice /system/bin/terservice
+    class core
+    user radio
+    group radio cache inet misc ccci
     oneshot
 

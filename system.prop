@@ -2,11 +2,11 @@
 # system.prop for mt6592
 #
 service.adb.root=1
-ro.kernel.qemu=1
 ro.sf.lcd_density=240
 wifi.interface=wlan0
 qemu.hw.mainkeys=0
 
+persist.mtk.aee.aed=on
 persist.radio.fd.counter=15
 persist.radio.fd.off.counter=5
 persist.radio.fd.r8.counter=15
@@ -14,6 +14,7 @@ persist.radio.fd.off.r8.counter=5
 fmradio.driver.enable=1
 ril.radiooff.poweroffMD=0
 
+mux.debuglog.enable=1
 rild.libpath=/system/lib/libmtkrilw.so
 rild.libargs=-d /dev/ttyC0
 ril.specific.sm_cause=0
