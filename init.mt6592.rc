@@ -185,6 +185,10 @@ service conn_launcher /system/bin/logwrapper /system/bin/6620_launcher -p /syste
 
 on fs
     write /proc/bootprof "INIT:eMMC:Mount_START"
+
+    mkdir /protect_f 0771 system system
+    mkdir /protect_s 0771 system system
+
     mount_all /fstab.mt6592
     write /proc/bootprof "INIT:NAND:Mount_END"
 
@@ -315,5 +319,30 @@ service terservice /system/bin/terservice
     class core
     user radio
     group radio cache inet misc ccci
+    oneshot
+
+#
+#
+#
+
+service mdlogger /system/bin/mdlogger
+    class main
+    user root
+    group shell system radio sdcard_rw inet sdcard_r media_rw ccci
+    disabled
+    oneshot
+
+service dualmdlogger /system/bin/dualmdlogger
+    class main
+    user shell
+    group shell system radio sdcard_rw inet sdcard_r media_rw ccci
+    disabled
+    oneshot
+
+service emcsmdlogger /system/bin/emcsmdlogger
+    class main
+    user shell
+    group system shell radio sdcard_rw inet sdcard_r media_rw ccci
+    disabled
     oneshot
 
