@@ -161,11 +161,19 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
     }
 
     memcpy(&s_rilenvmtk, env, sizeof(struct RIL_Env));
+
+    // replace librilmtk calls
+    s_rilenvmtk.OnRequestComplete = (void (*)(RIL_Token t, RIL_Errno e,void *response, size_t responselen))dlsym(dlHandle2, "RIL_onRequestComplete");
+    s_rilenvmtk.OnUnsolicitedResponseMTK = (void (*)(int unsolResponse, const void *data, size_t datalen, RILId id))dlsym(dlHandle2, "RIL_onUnsolicitedResponse");
+    s_rilenvmtk.RequestTimedCallback = (void(*)(RIL_TimedCallback callback,void *param, const struct timeval *relativeTime))dlsym(dlHandle2, "RIL_requestTimedCallback");
+
+    // original librilmtk calls
     s_rilenvmtk.RequestProxyTimedCallback = (void (*)(int unsolResponse, const void *data, size_t datalen, RILId id))dlsym(dlHandle2, "RIL_requestProxyTimedCallback");
     s_rilenvmtk.QueryMyChannelId = (RILChannelId (*)(RIL_Token ))dlsym(dlHandle2, "RIL_queryMyChannelId");
     s_rilenvmtk.QueryMyProxyIdByThread = (int (*)(void))dlsym(dlHandle2, "RIL_queryMyProxyIdByThread");
 
-    s_rilenvmtk.OnUnsolicitedResponseMTK = &RIL_onUnsolicitedResponseMTK;
+    // fake libril calls
+    //s_rilenvmtk.OnUnsolicitedResponseMTK = &RIL_onUnsolicitedResponseMTK;
 
     funcs = rilInit(&s_rilenvmtk, argc, argv);
 
@@ -177,6 +185,7 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
     rilRegister(&s_callbacksmtk);
 
     // disable libril RIL_register call
-    return NULL; // &s_callbacks
+    return NULL;
+    //return &s_callbacks;
 }
 
