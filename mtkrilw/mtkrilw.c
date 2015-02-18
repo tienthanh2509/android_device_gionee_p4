@@ -74,24 +74,24 @@ typedef struct {
 } RIL_RadioFunctionsMTK;
 
 static RIL_RadioFunctionsMTK s_callbacksmtk = {
-    RIL_VERSION,
     0,
-    0,
-    0,
-    0,
-    0
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
 
 static RIL_RadioFunctions s_callbacks = {
-    RIL_VERSION,
     0,
-    0,
-    0,
-    0,
-    0
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    NULL
 };
 
-struct RIL_EnvMTK {
+typedef struct {
     void (*OnRequestComplete)(RIL_Token t, RIL_Errno e,
                            void *response, size_t responselen);
 
@@ -105,7 +105,7 @@ struct RIL_EnvMTK {
     RILChannelId (*QueryMyChannelId) (RIL_Token t);
 
     int (*QueryMyProxyIdByThread)();
-};
+} RIL_EnvMTK;
 
 static RIL_EnvMTK s_rilenvmtk;
 
@@ -116,16 +116,6 @@ static void RIL_onUnsolicitedResponseMTK(int unsolResponse, const void *data, si
     OnUnsolicitedResponse(unsolResponse, data, datalen);
 }
 
-RILChannelId QueryMyChannelId (RIL_Token t)
-{
-   return RIL_URC;
-}
-
-int QueryMyProxyIdByThread()
-{
-   return 0;
-}
-
 RIL_RadioState onStateRequest()
 {
   return s_callbacksmtk.onStateRequest(MTK_RIL_SOCKET_1, 0);
@@ -134,30 +124,48 @@ RIL_RadioState onStateRequest()
 const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **argv)
 {
     const RIL_RadioFunctionsMTK *funcs;
+
     void *dlHandle;
-    const RIL_RadioFunctionsMTK *(*rilInit)(const struct RIL_EnvMTK *, int, char **);
+    void *dlHandle2;
+
+    const RIL_RadioFunctionsMTK *(*rilInit)(const RIL_EnvMTK *, int, char **);
+    void (*rilRegister)(const RIL_RadioFunctionsMTK *);
+
     const char *rilLibPath = "/system/lib/mtk-ril.so";
+    const char *rilLibPath2 = "/system/lib/librilmtk.so";
 
     dlHandle = dlopen(rilLibPath, RTLD_NOW);
-
     if (dlHandle == NULL) {
+        RLOGE("dlopen failed: %s", dlerror());
+        exit(EXIT_FAILURE);
+    }
+
+    dlHandle2 = dlopen(rilLibPath2, RTLD_NOW);
+    if (dlHandle2 == NULL) {
         RLOGE("dlopen failed: %s", dlerror());
         exit(EXIT_FAILURE);
     }
 
     OnUnsolicitedResponse = env->OnUnsolicitedResponse;
 
-    memcpy(&s_rilenvmtk, env, sizeof(RIL_Env));
-    s_rilenvmtk.QueryMyChannelId = QueryMyChannelId;
-    s_rilenvmtk.QueryMyProxyIdByThread = QueryMyProxyIdByThread;
-    s_rilenvmtk.OnUnsolicitedResponseMTK = &RIL_onUnsolicitedResponseMTK;
-
-    rilInit = (const RIL_RadioFunctionsMTK *(*)(const struct RIL_EnvMTK *, int, char **))dlsym(dlHandle, "RIL_Init");
-
+    rilInit = (const RIL_RadioFunctionsMTK *(*)(const RIL_EnvMTK *, int, char **))dlsym(dlHandle, "RIL_Init");
     if (rilInit == NULL) {
         RLOGE("RIL_Init not defined or exported in %s\n", rilLibPath);
         exit(EXIT_FAILURE);
     }
+
+    rilRegister = (void (*)(const RIL_RadioFunctionsMTK *))dlsym(dlHandle2, "RIL_register");
+    if (rilRegister == NULL) {
+        RLOGE("RIL_register not defined or exported in %s\n", rilLibPath2);
+        exit(EXIT_FAILURE);
+    }
+
+    memcpy(&s_rilenvmtk, env, sizeof(struct RIL_Env));
+    s_rilenvmtk.RequestProxyTimedCallback = (void (*)(int unsolResponse, const void *data, size_t datalen, RILId id))dlsym(dlHandle2, "RIL_requestProxyTimedCallback");
+    s_rilenvmtk.QueryMyChannelId = (RILChannelId (*)(RIL_Token ))dlsym(dlHandle2, "RIL_queryMyChannelId");
+    s_rilenvmtk.QueryMyProxyIdByThread = (int (*)(void))dlsym(dlHandle2, "RIL_queryMyProxyIdByThread");
+
+    s_rilenvmtk.OnUnsolicitedResponseMTK = &RIL_onUnsolicitedResponseMTK;
 
     funcs = rilInit(&s_rilenvmtk, argc, argv);
 
@@ -166,6 +174,9 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
 
     s_callbacks.onStateRequest = onStateRequest;
 
-    return &s_callbacks;
+    rilRegister(&s_callbacksmtk);
+
+    // disable libril RIL_register call
+    return NULL; // &s_callbacks
 }
 

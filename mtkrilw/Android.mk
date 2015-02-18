@@ -6,7 +6,7 @@ LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES:= \
-    mtkrilw.cpp
+    mtkrilw.c
 
 LOCAL_SHARED_LIBRARIES := \
     liblog libcutils libutils libril librilutils
