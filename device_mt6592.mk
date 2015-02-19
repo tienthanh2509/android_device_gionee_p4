@@ -5,6 +5,8 @@ $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 $(call inherit-product-if-exists, vendor/mediatek/mt6592/mt6592-vendor.mk)
 
+PRODUCT_CHARACTERISTICS := nosdcard
+
 DEVICE_PACKAGE_OVERLAYS += device/mediatek/mt6592/overlay
 
 LOCAL_PATH := device/mediatek/mt6592

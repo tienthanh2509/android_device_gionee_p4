@@ -6,6 +6,9 @@ on init
     symlink /storage/sdcard0 /sdcard
     symlink /storage/sdcard0 /mnt/sdcard
 
+    mkdir /mnt/media_rw/sdcard0 0700 media_rw media_rw
+    mkdir /mnt/media_rw/sdcard1 0700 media_rw media_rw
+
     chown system graphics /dev/ion
     chmod 0644 /dev/ion
 
@@ -190,6 +193,8 @@ on fs
     mkdir /protect_s 0771 system system
 
     mount_all /fstab.mt6592
+    setprop ro.crypto.fuse_sdcard true
+
     write /proc/bootprof "INIT:NAND:Mount_END"
 
 on property:wlan.driver.status=ok
@@ -345,4 +350,19 @@ service emcsmdlogger /system/bin/emcsmdlogger
     group system shell radio sdcard_rw inet sdcard_r media_rw ccci
     disabled
     oneshot
+
+#
+#
+#
+
+service sdcard /system/bin/sdcard -u 1023 -g 1023 -d /data/media /storage/sdcard0
+    class late_start
+
+service fuse_sdcard0 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard0 /storage/sdcard0
+    class late_start
+    disabled
+
+service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
+    class late_start
+    disabled
 
