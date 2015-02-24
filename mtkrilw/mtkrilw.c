@@ -170,7 +170,7 @@ issueLocalRequest(int request, void *data, int len) {
     s_callbacks.onRequest(request, data, len, pRI);
 }
 
-void register_socket(const char* name)
+int register_socket(const char* name)
 {
    int sfd;
    struct sockaddr_un my_addr;
@@ -178,7 +178,7 @@ void register_socket(const char* name)
    sfd = socket(AF_UNIX, SOCK_STREAM, 0);
    if (sfd == -1) {
         RLOGD("register control socket socket FAIL: %s\n", strerror(errno));
-        return;
+        return -1;
    }
 
    memset(&my_addr, 0, sizeof(struct sockaddr_un));
@@ -193,7 +193,7 @@ void register_socket(const char* name)
    if (bind(sfd, (struct sockaddr *) &my_addr,
             sizeof(struct sockaddr_un)) == -1) {
         RLOGD("register control socket bind FAIL %s: %s\n", my_addr.sun_path, strerror(errno));
-        return;
+        return -1;
    }
 
    char key[64] = {0};
@@ -205,10 +205,11 @@ void register_socket(const char* name)
    snprintf(value, sizeof(value), "%d", sfd);
    if(setenv(key, value, 1) == -1) {
      RLOGD("register control socket FAIL %s %s: %s\n", key, value, strerror(errno));
-     return;
+     return -1;
    }
 
    RLOGD("register control socket %s %s\n", key, value);
+   return sfd;
 }
 
 const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **argv)
@@ -282,7 +283,7 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
     rilRegister(&s_callbacksmtk);
 
     {
-      int data = 1;
+      int data = 2;
       issueLocalRequest(RIL_REQUEST_DUAL_SIM_MODE_SWITCH, &data, sizeof(data));
     }
 
