@@ -36,12 +36,28 @@
 #include <sys/system_properties.h>
 #include <stdio.h>
 #include <dlfcn.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 #include "ril.h"
 #include "hardware/qemu_pipe.h"
 
 #define LOG_TAG "RIL"
 #include <utils/Log.h>
+
+#define RIL_REQUEST_MTK_BASE 2000
+
+#define RIL_REQUEST_DUAL_SIM_MODE_SWITCH (RIL_REQUEST_MTK_BASE + 12)
+
+#define RIL_CMD_PROXY_5     RIL_CMD_4 
+#define RIL_CMD_PROXY_1     RIL_CMD_3
+#define RIL_CMD_PROXY_2     RIL_CMD_2
+#define RIL_CMD_PROXY_3     RIL_CMD_1
+#define RIL_CMD_PROXY_4     RIL_URC
+#define RIL_CMD_PROXY_6     RIL_ATCI
 
 typedef enum {
     MTK_RIL_SOCKET_1,
@@ -107,6 +123,22 @@ typedef struct {
     int (*QueryMyProxyIdByThread)();
 } RIL_EnvMTK;
 
+typedef struct {
+    int requestNumber;
+    void (*dispatchFunction) (struct Parcel *p, struct RequestInfo *pRI);
+    int(*responseFunction) (struct Parcel *p, void *response, size_t responselen);
+    RILChannelId proxyId;
+} CommandInfo;
+
+typedef struct RequestInfo {
+    int32_t token;      //this is not RIL_Token
+    CommandInfo *pCI;
+    struct RequestInfo *p_next;
+    char cancelled;
+    char local;         // responses to local commands do not go back to command process
+    RILChannelId cid;
+} RequestInfo;
+
 static RIL_EnvMTK s_rilenvmtk;
 
 void (*OnUnsolicitedResponse)(int unsolResponse, const void *data, size_t datalen);
@@ -119,6 +151,64 @@ static void RIL_onUnsolicitedResponseMTK(int unsolResponse, const void *data, si
 RIL_RadioState onStateRequest()
 {
   return s_callbacksmtk.onStateRequest(MTK_RIL_SOCKET_1, 0);
+}
+
+static void
+issueLocalRequest(int request, void *data, int len) {
+    RequestInfo *pRI;
+    int ret;
+
+    pRI = (RequestInfo *)calloc(1, sizeof(RequestInfo));
+
+    pRI->local = 1;
+    pRI->token = 0xffffffff;        // token is not used in this context
+    pRI->pCI = 0;//(CommandInfo *)calloc(1, sizeof(CommandInfo));
+//    pRI->pCI->requestNumber = request;
+//    pRI->pCI->proxyId = RIL_CMD_PROXY_1;
+    pRI->p_next = 0;
+
+    s_callbacks.onRequest(request, data, len, pRI);
+}
+
+void register_socket(const char* name)
+{
+   int sfd;
+   struct sockaddr_un my_addr;
+
+   sfd = socket(AF_UNIX, SOCK_STREAM, 0);
+   if (sfd == -1) {
+        RLOGD("register control socket socket FAIL: %s\n", strerror(errno));
+        return;
+   }
+
+   memset(&my_addr, 0, sizeof(struct sockaddr_un));
+   my_addr.sun_family = AF_UNIX;
+   strncpy(my_addr.sun_path, "/dev/radio/",
+            sizeof(my_addr.sun_path) - 1);
+   strncat(my_addr.sun_path, "/",
+            sizeof(my_addr.sun_path) - 1);
+   strncat(my_addr.sun_path, name,
+            sizeof(my_addr.sun_path) - 1);
+
+   if (bind(sfd, (struct sockaddr *) &my_addr,
+            sizeof(struct sockaddr_un)) == -1) {
+        RLOGD("register control socket bind FAIL %s: %s\n", my_addr.sun_path, strerror(errno));
+        return;
+   }
+
+   char key[64] = {0};
+   char value[64] = {0};
+
+   strncpy(key, ANDROID_SOCKET_ENV_PREFIX, sizeof(key) - 1);
+   strncat(key, name, sizeof(key) - 1);
+
+   snprintf(value, sizeof(value), "%d", sfd);
+   if(setenv(key, value, 1) == -1) {
+     RLOGD("register control socket FAIL %s %s: %s\n", key, value, strerror(errno));
+     return;
+   }
+
+   RLOGD("register control socket %s %s\n", key, value);
 }
 
 const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **argv)
@@ -168,7 +258,7 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
     s_rilenvmtk.RequestTimedCallback = (void(*)(RIL_TimedCallback callback,void *param, const struct timeval *relativeTime))dlsym(dlHandle2, "RIL_requestTimedCallback");
 
     // original librilmtk calls
-    s_rilenvmtk.RequestProxyTimedCallback = (void (*)(int unsolResponse, const void *data, size_t datalen, RILId id))dlsym(dlHandle2, "RIL_requestProxyTimedCallback");
+    s_rilenvmtk.RequestProxyTimedCallback = (void (*) (RIL_TimedCallback callback, void *param,const struct timeval *relativeTime, int proxyId))dlsym(dlHandle2, "RIL_requestProxyTimedCallback");
     s_rilenvmtk.QueryMyChannelId = (RILChannelId (*)(RIL_Token ))dlsym(dlHandle2, "RIL_queryMyChannelId");
     s_rilenvmtk.QueryMyProxyIdByThread = (int (*)(void))dlsym(dlHandle2, "RIL_queryMyProxyIdByThread");
 
@@ -182,7 +272,19 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
 
     s_callbacks.onStateRequest = onStateRequest;
 
+    register_socket("rild2");
+    register_socket("rild-atci");
+    register_socket("rild-oem");
+    register_socket("rild-mtk-ut");
+    register_socket("rild-mtk-ut-2");
+    register_socket("rild-mtk-modem");
+
     rilRegister(&s_callbacksmtk);
+
+    {
+      int data = 1;
+      issueLocalRequest(RIL_REQUEST_DUAL_SIM_MODE_SWITCH, &data, sizeof(data));
+    }
 
     // disable libril RIL_register call
     return NULL;
