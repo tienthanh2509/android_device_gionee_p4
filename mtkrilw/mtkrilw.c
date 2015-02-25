@@ -185,8 +185,6 @@ int register_socket(const char* name)
    my_addr.sun_family = AF_UNIX;
    strncpy(my_addr.sun_path, "/dev/radio/",
             sizeof(my_addr.sun_path) - 1);
-   strncat(my_addr.sun_path, "/",
-            sizeof(my_addr.sun_path) - 1);
    strncat(my_addr.sun_path, name,
             sizeof(my_addr.sun_path) - 1);
 
@@ -203,6 +201,7 @@ int register_socket(const char* name)
    strncat(key, name, sizeof(key) - 1);
 
    snprintf(value, sizeof(value), "%d", sfd);
+
    if(setenv(key, value, 1) == -1) {
      RLOGD("register control socket FAIL %s %s: %s\n", key, value, strerror(errno));
      return -1;
@@ -282,13 +281,9 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
 
     rilRegister(&s_callbacksmtk);
 
-    {
-      int data = 2;
-      issueLocalRequest(RIL_REQUEST_DUAL_SIM_MODE_SWITCH, &data, sizeof(data));
-    }
-
     // disable libril RIL_register call
     return NULL;
+
     //return &s_callbacks;
 }
 
