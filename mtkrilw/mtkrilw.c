@@ -153,23 +153,6 @@ RIL_RadioState onStateRequest()
   return s_callbacksmtk.onStateRequest(MTK_RIL_SOCKET_1, 0);
 }
 
-static void
-issueLocalRequest(int request, void *data, int len) {
-    RequestInfo *pRI;
-    int ret;
-
-    pRI = (RequestInfo *)calloc(1, sizeof(RequestInfo));
-
-    pRI->local = 1;
-    pRI->token = 0xffffffff;        // token is not used in this context
-    pRI->pCI = 0;//(CommandInfo *)calloc(1, sizeof(CommandInfo));
-//    pRI->pCI->requestNumber = request;
-//    pRI->pCI->proxyId = RIL_CMD_PROXY_1;
-    pRI->p_next = 0;
-
-    s_callbacks.onRequest(request, data, len, pRI);
-}
-
 int register_socket(const char* name)
 {
    int sfd;
