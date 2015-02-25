@@ -50,6 +50,8 @@ TARGET_KMODULES := true
 
 BOARD_EGL_CFG := device/mediatek/mt6592/egl.cfg
 
+BOARD_RIL_CLASS := ../../../device/mediatek/mt6592/ril/
+
 BOARD_CONNECTIVITY_VENDOR := MediaTek
 BOARD_CONNECTIVITY_MODULE := conn_soc
 
