@@ -34,6 +34,9 @@ PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/mtk-kpd.kl:system/usr/keylayout/mtk-kpd.kl
 
 PRODUCT_COPY_FILES += \
+    device/mediatek/mt6592/init.recovery.mt6592.rc:root/init.recovery.mt6592.rc
+
+PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/fstab.mt6592:root/fstab.mt6592 \
     device/mediatek/mt6592/init.mt6592.rc:root/init.mt6592.rc \
     $(LOCAL_KERNEL):kernel
