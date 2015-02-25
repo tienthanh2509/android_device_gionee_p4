@@ -177,6 +177,13 @@ int register_socket(const char* name)
         return -1;
    }
 
+   set_socket(name, sfd);
+
+   return sfd;
+}
+
+void set_socket(const char* name, int sfd)
+{
    char key[64] = {0};
    char value[64] = {0};
 
@@ -187,11 +194,10 @@ int register_socket(const char* name)
 
    if(setenv(key, value, 1) == -1) {
      RLOGD("register control socket FAIL %s %s: %s\n", key, value, strerror(errno));
-     return -1;
+     return;
    }
 
    RLOGD("register control socket %s %s\n", key, value);
-   return sfd;
 }
 
 const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **argv)
@@ -255,7 +261,12 @@ const RIL_RadioFunctions *RIL_Init(const struct RIL_Env *env, int argc, char **a
 
     s_callbacks.onStateRequest = onStateRequest;
 
-    register_socket("rild2");
+    int rild = android_get_control_socket("rild");
+    int rild2 = register_socket("rild2");
+
+    set_socket("rild", rild2);
+    set_socket("rild2", rild);
+
     register_socket("rild-atci");
     register_socket("rild-oem");
     register_socket("rild-mtk-ut");
