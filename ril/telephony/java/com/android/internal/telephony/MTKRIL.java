@@ -102,6 +102,11 @@ public class MTKRIL extends RIL {
     static final int RIL_68_REQUEST = 0x68;
     static final int RIL_REQUEST_QUERY_ICCID = (RIL_REQUEST_MTK_BASE + 29);
 
+    static final int RIL_UNSOL_MTK_BASE = 3000;
+    static final int RIL_UNSOL_CALL_PROGRESS_INFO = (RIL_UNSOL_MTK_BASE + 4);
+    static final int RIL_UNSOL_INCOMING_CALL_INDICATION = (RIL_UNSOL_MTK_BASE + 14);
+    static final int RIL_REQUEST_SET_CALL_INDICATION = (RIL_REQUEST_MTK_BASE + 36);
+
     public MTKRIL(Context context, int preferredNetworkType, int cdmaSubscription) {
         this(context, preferredNetworkType, cdmaSubscription, null);
     }
@@ -190,6 +195,64 @@ public class MTKRIL extends RIL {
         if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
 
         send(rr);   
+    }
+
+    @Override
+    protected void
+    processUnsolicited (Parcel p) {
+        int response;
+        Object ret;
+
+        int pos = p.dataPosition();
+
+        response = p.readInt();
+
+        switch(response) {
+            case RIL_UNSOL_CALL_PROGRESS_INFO: ret = responseStrings(p); break;
+            case RIL_UNSOL_INCOMING_CALL_INDICATION: ret = responseStrings(p); break;
+           default:
+            p.setDataPosition(pos);
+            super.processUnsolicited(p);
+            return;
+        }
+        switch(response) {
+            case RIL_UNSOL_CALL_PROGRESS_INFO:
+                if (RILJ_LOGD) unsljLog(response);
+
+                mCallStateRegistrants
+                    .notifyRegistrants(new AsyncResult(null, null, null));
+                break;
+            case RIL_UNSOL_INCOMING_CALL_INDICATION: {
+                if (RILJ_LOGD) unsljLog(response);
+
+		AsyncResult ar = new AsyncResult(null, ret, null);
+		String[] incomingCallInfo = (String[]) ar.result;
+		int callId = Integer.parseInt(incomingCallInfo[0]);
+		int callMode = Integer.parseInt(incomingCallInfo[3]);
+		int seqNumber = Integer.parseInt(incomingCallInfo[4]);
+
+                setCallIndication(callMode, callId, seqNumber, null);
+
+                mCallStateRegistrants
+                    .notifyRegistrants(ar);
+                break;
+	    }
+        }
+    }
+
+    public void setCallIndication(int mode, int callId, int seqNumber, Message result) {
+        RILRequest rr
+                = RILRequest.obtain(RIL_REQUEST_SET_CALL_INDICATION, result);
+
+        rr.mParcel.writeInt(3);
+        rr.mParcel.writeInt(mode);
+        rr.mParcel.writeInt(callId);
+        rr.mParcel.writeInt(seqNumber);
+
+        if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest)
+                + " " + mode + ", " + callId + ", " + seqNumber);
+
+        send(rr);
     }
 
 }
