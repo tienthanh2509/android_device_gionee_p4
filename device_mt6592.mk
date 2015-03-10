@@ -23,12 +23,19 @@ PRODUCT_PACKAGES += \
     lights.mt6592
 
 PRODUCT_PACKAGES += \
-    audio.primary.default \
+    libmtkrilw
+
+PRODUCT_PACKAGES += \
+    audio.r_submix.default
+
+PRODUCT_PACKAGES += \
+    audio.primary.default
+
+PRODUCT_PACKAGES += \
     audio_policy.default
 
 PRODUCT_PACKAGES += \
-    lib_driver_cmd_mt66xx \
-    mtkrilw
+    lib_driver_cmd_mt66xx
 
 PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/mtk-kpd.kl:system/usr/keylayout/mtk-kpd.kl

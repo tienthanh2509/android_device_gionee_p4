@@ -39,6 +39,7 @@ LOCAL_SHARED_LIBRARIES += \
 
 LOCAL_LDLIBS += -lpthread
 LOCAL_CFLAGS += -DRIL_SHLIB
-LOCAL_MODULE:= libmtkrilw
+LOCAL_MODULE := libmtkrilw
+
 include $(BUILD_SHARED_LIBRARY)
 
