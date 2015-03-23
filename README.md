@@ -1,5 +1,12 @@
 # Build
 
+* features
+
+  * wifi
+  * gsm (call in / call out / hangout)
+  * egl
+  * sound
+
 * init
 
         # repo init -u git://github.com/CyanogenMod/android.git -b cm-11.0
