@@ -18,12 +18,6 @@ extern "C"
 		void *hdl;
 		struct legacy_audio_module *hmi;
 
-		hdl = dlopen("libmtkaudio.so", RTLD_NOW | RTLD_LOCAL);
-		if (hdl == NULL) {
-			ALOGE("MTK Audio loadLibrary() failed to open %s", dlerror());
-			return -1;
-		}
-
 		hdl = dlopen("libaudio.primary.default.so", RTLD_NOW | RTLD_LOCAL);
 		if (hdl == NULL) {
 			ALOGE("MTK Audio loadLibrary() failed to open %s", dlerror());
