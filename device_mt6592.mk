@@ -29,7 +29,7 @@ PRODUCT_PACKAGES += \
     audio.r_submix.default
 
 PRODUCT_PACKAGES += \
-    audio.primary.default
+    audio.primary.mt6592
 
 PRODUCT_PACKAGES += \
     audio_policy.default
@@ -42,6 +42,9 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/init.recovery.mt6592.rc:root/init.recovery.mt6592.rc
+
+PRODUCT_COPY_FILES += \
+    device/mediatek/mt6592/audio/audio_policy.conf:system/etc/audio_policy.conf
 
 PRODUCT_COPY_FILES += \
     device/mediatek/mt6592/fstab.mt6592:root/fstab.mt6592 \
