@@ -27,3 +27,7 @@ ril.radiooff.poweroffMD=0
 ril.active.md=0
 
 ro.telephony.ril_class=MTKRIL
+
+debug.sf.ddms=1
+
+ro.opengles.version=131072
