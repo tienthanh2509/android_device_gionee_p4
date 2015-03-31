@@ -30,3 +30,13 @@
 # MTK
 
 Few words about mtk related binaries, services and migration peculiarities.
+
+# Limitations
+
+Services requires root:
+
+change here: system/core/rootdir/init.rd
+
+surfaceflinger depends on sched_setscheduler calls
+
+mediaserver depends on /data/nvram folder access.
