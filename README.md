@@ -15,17 +15,17 @@
         
         # source build/envsetup.sh
         
-        # lunch cm_mt6592-eng
+        # lunch cm_rainbow-eng
 
 * recoveries
 
-        # . build/tools/device/makerecoveries.sh cm_mt6592-eng
+        # . build/tools/device/makerecoveries.sh cm_rainbow-eng
     
         # mka bootimage
 
 * full build
 
-        # brunch cm_mt6592-eng
+        # brunch cm_rainbow-eng
 
 # MTK
 
