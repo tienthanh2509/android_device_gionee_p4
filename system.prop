@@ -81,7 +81,3 @@ ro.boot.selinux=disable
 # Disable dirty region for Mali
 debug.hwui.render_dirty_regions=false
 
-ro.mediatek.chip_ver=S01
-ro.mediatek.version.release=ALPS.KK1.MP3DS.V1.40
-ro.mediatek.platform=MT6582
-ro.mediatek.version.sdk=2
