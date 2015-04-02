@@ -21,6 +21,12 @@ TARGET_CPU_VARIANT := cortex-a7
 # power
 TARGET_POWERHAL_VARIANT := cm
 
+# BT
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_MTK := true
+BOARD_BLUETOOTH_DOES_NOT_USE_RFKILL := true
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/wiko/rainbow/bluetooth
+
 # EGL settings
 BOARD_EGL_CFG := device/wiko/rainbow/egl.cfg
 USE_OPENGL_RENDERER := true
@@ -63,7 +69,7 @@ TARGET_RECOVERY_FSTAB := device/wiko/rainbow/recovery.fstab
 BOARD_HAS_NO_SELECT_BUTTON := true
 
 BOARD_CUSTOM_BOOTIMG_MK := device/wiko/rainbow/bootimg.mk
-BOARD_MKBOOTIMG_ARGS := --board 1400865686
+BOARD_MKBOOTIMG_ARGS := --board 1336460062
 
 TARGET_KMODULES := true
 
