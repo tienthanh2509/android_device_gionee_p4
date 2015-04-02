@@ -22,7 +22,7 @@ TARGET_CPU_VARIANT := cortex-a7
 TARGET_POWERHAL_VARIANT := cm
 
 # EGL settings
-BOARD_EGL_CFG := device/mediatek/s5501/egl.cfg
+BOARD_EGL_CFG := device/wiko/rainbow/egl.cfg
 USE_OPENGL_RENDERER := true
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
 
