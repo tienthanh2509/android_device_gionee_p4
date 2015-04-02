@@ -9,7 +9,7 @@ $(recovery_ramdisk): $(MKBOOTFS) \
 	$(recovery_uncompressed_ramdisk)
 	@echo -e ${CL_CYN}"----- Making recovery mtk ramdisk ------"${CL_RST}
 	$(MINIGZIP) < $(recovery_uncompressed_ramdisk) > $@
-	device/mediatek/mt6592/pack.pl RECOVERY $@
+	device/wiko/rainbow/pack.pl RECOVERY $@
 
 $(INSTALLED_RECOVERYIMAGE_TARGET): $(MKBOOTIMG) \
 		$(recovery_ramdisk) \
@@ -25,7 +25,7 @@ $(INSTALLED_RAMDISK_TARGET): $(MKBOOTFS) $(INTERNAL_RAMDISK_FILES) | $(MINIGZIP)
 #	cp -r $(TARGET_ROOT_OUT)/../recovery/root/sbin/* $(TARGET_ROOT_OUT)/system/bin/
 #	cd $(TARGET_ROOT_OUT) && find . | cpio -o -H newc | $(MINIGZIP) > $@
 	$(hide) $(MKBOOTFS) $(TARGET_ROOT_OUT) | $(MINIGZIP) > $@
-	$(hide) device/mediatek/mt6592/pack.pl ROOTFS $@
+	$(hide) device/wiko/rainbow/pack.pl ROOTFS $@
 
 $(INSTALLED_BOOTIMAGE_TARGET): $(MKBOOTIMG) $(INTERNAL_BOOTIMAGE_FILES)
 	$(call pretty,"Target boot mtk image: $@")
