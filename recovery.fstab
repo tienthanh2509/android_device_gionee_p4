@@ -1,16 +1,10 @@
-/dev# Android fstab file.
-#<src>           <mnt_point>         <type>    <mnt_flags and options>                 <fs_mgr_flags>
-# The filesystem that contains the filesystem checker binary (typically /system) cannot
-# specify MF_CHECK, and must come before any filesystems that do specify MF_CHECK
-
-/dev/bootimg      /boot       emmc  defaults                                                    defaults
-/dev/recovery  /recovery   emmc  defaults                                                    defaults
-/dev/block/mmcblk0p5    /system     ext4  rw                                                          wait
-/dev/block/mmcblk0p7  /data       ext4  noatime,nosuid,nodev,noauto_da_alloc,discard                wait,check
-/dev/block/mmcblk0p6     /cache      ext4  noatime,nosuid,nodev,noauto_da_alloc,discard                wait,check
-/dev/block/mmcblk0p2  /protect_f  ext4  noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc    wait,check
-/dev/block/mmcblk0p3  /protect_s  ext4  noatime,nosuid,nodev,noauto_da_alloc,commit=1,nodelalloc    wait,check
-
-/devices/platform/mtk-msdc.1/mmc_host            auto        vfat  defaults                                                    voldmanaged=sdcard1:auto,noemulatedsd
-/devices/platform/mt_usb		auto	auto	defaults	voldmanaged=usbdisk0:auto
-
+/dev/misc		/misc		emmc	defaults defaults
+/dev/block/mmcblk0p7	/data		ext4	noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic wait,check,encryptable=/dev/block/platform/msm_sdcc.1/by-name/metadata
+/dev/block/mmcblk0p5	/system		ext4	ro,barrier=1                                                    wait
+/dev/block/mmcblk0p6	/cache		ext4	noatime,nosuid,nodev,barrier=1,data=ordered,nomblk_io_submit,noauto_da_alloc,errors=panic wait,check
+/dev/bootimg		/boot		emmc	defaults defaults
+/dev/recovery		/recovery	emmc	defaults defaults
+/dev/block/mmcblk0p8	/emmc		vfat	defaults defaults
+/dev/block/mmcblk1	/sdcard		vfat	defaults defaults
+/dev/block/mmcblk1p1	/sdcard		vfat	defaults defaults
+/dev/block/mmcblk1p2	/sd-ext		auto	defaults defaults
