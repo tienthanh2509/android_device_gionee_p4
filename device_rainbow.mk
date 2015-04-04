@@ -29,13 +29,13 @@ PRODUCT_PACKAGES += \
 
 # audio
 PRODUCT_PACKAGES += \
-    audio.r_submix.default \
-    audio.a2dp.default \
-    audio.primary.mt6582 \
-    audio.usb.default \
-    libaudio-resampler \
-    audio_policy.default \
-    tinymix
+    audio.r_submix.default
+
+PRODUCT_PACKAGES += \
+    audio.primary.mt6582
+
+PRODUCT_PACKAGES += \
+    audio_policy.default
 
 PRODUCT_PACKAGES += \
     lib_driver_cmd_mt66xx
@@ -45,14 +45,20 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     device/wiko/rainbow/root/fstab.mt6582:root/fstab.mt6582 \
+    device/wiko/rainbow/root/init.rc:root/init.rc \
     device/wiko/rainbow/root/init.mt6582.rc:root/init.mt6582.rc \
-    device/wiko/rainbow/root/init.recovery.mt6582.rc:root/init.recovery.mt6582.rc \
-    device/wiko/rainbow/root/init.protect.rc:root/init.protect.rc \
     device/wiko/rainbow/root/init.project.rc:root/init.project.rc \
     device/wiko/rainbow/root/init.usb.rc:root/init.usb.rc \
+    device/wiko/rainbow/root/factory_init.rc:root/factory_init.rc \
+    device/wiko/rainbow/root/init.fuse.rc:root/init.fuse.rc \
+    device/wiko/rainbow/root/init.modem.rc:root/init.modem.rc \
+    device/wiko/rainbow/root/init.xlog.rc:root/init.xlog.rc \
+    device/wiko/rainbow/root/ueventd.mt6582.rc:root/ueventd.mt6582.rc \
+    device/wiko/rainbow/root/init.mt6582.usb.rc:root/init.mt6582.usb.rc \
     $(LOCAL_KERNEL):kernel
 
 PRODUCT_COPY_FILES += \
+	device/wiko/rainbow/android.hardware.microphone.xml:system/etc/permissions/android.hardware.microphone.xml \
 	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
 	frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \

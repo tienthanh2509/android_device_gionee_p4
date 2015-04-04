@@ -1,5 +1,3 @@
-USE_CAMERA_STUB := true
-
 # inherit from the proprietary version
 -include vendor/wiko/rainbow/BoardConfigVendor.mk
 
@@ -18,17 +16,44 @@ TARGET_CPU_SMP := true
 TARGET_CPU_VARIANT := cortex-a7
 DEVICE_RESOLUTION := 720x1280
 
-# BT
+# Bluetooth
+BOARD_HAVE_BLUETOOTH := true
+BOARD_HAVE_BLUETOOTH_MTK := true
+BOARD_BLUETOOTH_DOES_NOT_USE_RFKILL := true
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/wiko/rainbow/bluetooth
+
+# MTK hacks for hw
+# TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
+# NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
+# TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
+# VSYNC_EVENT_PHASE_OFFSET_NS := -5000000
+# SF_VSYNC_EVENT_PHASE_OFFSET_NS := -5000000
+# PRESENT_TIME_OFFSET_FROM_VSYNC_NS := 0
+
+# blob hacks Flags
+# COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
+# COMMON_GLOBAL_CFLAGS += -DMR1_AUDIO_BLOB
+# COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB
+# COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
+
+
+TARGET_GLOBAL_CFLAGS   += -mfpu=neon -mfloat-abi=softfp
+TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
+
+# audio
+# TARGET_PROVIDES_LIBAUDIO := true
+# BOARD_USES_MTK_AUDIO := true
+
+USE_CAMERA_STUB := true
+ 
+WITH_DEXPREOPT := false
+DISABLE_DEXPREOPT := true
 
 # EGL settings
 BOARD_EGL_CFG := device/wiko/rainbow/egl.cfg
 USE_OPENGL_RENDERER := true
 
 TARGET_BOOTLOADER_BOARD_NAME := rainbow
-
-TARGET_GLOBAL_CFLAGS   += -mfpu=neon -mfloat-abi=softfp
-TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
 TARGET_USERIMAGES_USE_EXT4:=true
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := false
@@ -52,6 +77,10 @@ BOARD_SEPOLICY_UNION := \
        app.te \
        system.te \
        file_contexts
+
+# GPS
+TARGET_SPECIFIC_HEADER_PATH := device/wiko/rainbow/include
+
 
 TARGET_PREBUILT_KERNEL := device/wiko/rainbow/kernel
 TARGET_RECOVERY_FSTAB := device/wiko/rainbow/recovery.fstab

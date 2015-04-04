@@ -1,19 +1,14 @@
 # platform specific configuration items
-import init.mt6582.usb.rc
-import init.modem.rc
-import init.protect.rc
-import init.project.rc
-import init.fuse.rc
+import /init.mt6582.usb.rc
+import /init.modem.rc
+import /init.project.rc
+import /init.fuse.rc
 ###########
 on early-init
     setprop ro.mtk.hardware mt6582
     rm /sbin/multi_init
     chown shell system /proc/mtk_battery_cmd/current_cmd
     chown shell system /proc/mtk_battery_cmd/discharging_cmd
-
-on boot
-    chown root radio /proc/cmdline
-
 
 on init
     export LD_PRELOAD /system/lib/libxlog.so
@@ -76,7 +71,11 @@ on post-fs
 on post-fs-data
     # create basic filesystem structure
 
-    mkdir /data/nvram 0771 root system
+    mkdir /data/nvram 2770 root nvram
+    chmod 0770 /dev/nvram
+
+    chown ccci ccci /sys/kernel/ccci/boot
+
     mkdir /data/nvram/bt 2771 bluetooth bluetooth
     mkdir /data/nvram/media 0771 media audio
     mkdir /data/misc/bluetoothd 0770 bluetooth bluetooth
@@ -88,6 +87,9 @@ on post-fs-data
 
     # create for muxd pts device node , to operate without root
     mkdir /dev/radio 0770 radio radio
+
+    start adbd
+
 # -----------------------
 # Add by MTK
 
@@ -321,8 +323,6 @@ on post-fs-data
     chmod 0660 /dev/kd_camera_flashlight
     chmod 0660 /dev/kd_camera_hw_bus2
     chmod 0660 /dev/FM50AF
-    chmod 0660 /dev/DW9718AF
-    chmod 0660 /dev/OV8825AF
     chmod 0660 /dev/CAM_CAL_DRV
 
     chown system camera /dev/camera-sysram
@@ -332,8 +332,6 @@ on post-fs-data
     chown system camera /dev/kd_camera_flashlight
     chown system camera /dev/kd_camera_hw_bus2
     chown system camera /dev/FM50AF
-    chown system camera /dev/DW9718AF
-    chown system camera /dev/OV8825AF
     chown system camera /dev/CAM_CAL_DRV
 
 
@@ -693,7 +691,7 @@ service gesture /system/bin/gesture
     oneshot
 
 
-service drvbd /system/bin/drvbd
+service drvbd /system/xbin/strace -o /data/drvb /system/bin/drvbd
     class main
     user system
     group system
@@ -712,7 +710,7 @@ service netdiag /system/bin/netdiag
 
 service nvram_daemon /system/bin/nvram_daemon
     class main
-    user nvram
+    user root
     group nvram system
     oneshot
 
