@@ -524,7 +524,7 @@ service debuggerd /system/bin/debuggerd
 
 service surfaceflinger /system/bin/surfaceflinger
     class main
-    user system
+    user root
     group graphics drmrpc
     onrestart restart zygote
 
