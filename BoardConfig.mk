@@ -36,16 +36,11 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/wiko/rainbow/bluetooth
 # COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB
 # COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 
-
+# Flags
 TARGET_GLOBAL_CFLAGS   += -mfpu=neon -mfloat-abi=softfp
 TARGET_GLOBAL_CPPFLAGS += -mfpu=neon -mfloat-abi=softfp
 
-# audio
-# TARGET_PROVIDES_LIBAUDIO := true
-# BOARD_USES_MTK_AUDIO := true
-
-USE_CAMERA_STUB := true
- 
+# Deodex
 WITH_DEXPREOPT := false
 DISABLE_DEXPREOPT := true
 

@@ -300,19 +300,19 @@ on post-fs-data
     chmod 0664 /dev/TV-out
 
     #HDMI
-    chown meida system /dev/hdmitx
-    chmod 0660 /dev/hdmitx
+#    chown meida system /dev/hdmitx
+#    chmod 0660 /dev/hdmitx
 
     # JPEG
     chmod 0440 /dev/mtk_jpeg
     chown system camera /dev/mtk_jpeg
 
     #ALMK
-    chmod 0440 /dev/mtk_almk
+#    chmod 0440 /dev/mtk_almk
 
     # DISP
-    chmod 0440 /dev/mtk_disp
-    chown system system /dev/mtk_disp
+#    chmod 0440 /dev/mtk_disp
+#    chown system system /dev/mtk_disp
 
 
     #Camera
@@ -323,6 +323,9 @@ on post-fs-data
     chmod 0660 /dev/kd_camera_flashlight
     chmod 0660 /dev/kd_camera_hw_bus2
     chmod 0660 /dev/FM50AF
+    chmod 0660 /dev/OV8825AF
+    chmod 0660 /dev/OV8826AF
+    chmod 0660 /dev/LITEON3H7AF
     chmod 0660 /dev/CAM_CAL_DRV
 
     chown system camera /dev/camera-sysram
@@ -332,6 +335,9 @@ on post-fs-data
     chown system camera /dev/kd_camera_flashlight
     chown system camera /dev/kd_camera_hw_bus2
     chown system camera /dev/FM50AF
+    chown system camera /dev/OV8825AF
+    chown system camera /dev/OV8826AF
+    chown system camera /dev/LITEON3H7AF
     chown system camera /dev/CAM_CAL_DRV
 
 
