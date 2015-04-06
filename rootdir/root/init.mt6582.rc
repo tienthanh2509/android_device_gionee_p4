@@ -969,6 +969,16 @@ service mtkbt /system/bin/mtkbt
 
 # GPS begin
 
+    chmod 0666 /dev/gps
+    chmod 0660 /dev/stpgps
+    mkdir /data/agps_supl 0771 gps system
+    chown gps gps /dev/stpgps
+    chown gps gps /sys/class/gpsdrv/gps/pwrctl
+    chown gps gps /sys/class/gpsdrv/gps/suspend
+    chown gps gps /sys/class/gpsdrv/gps/state
+    chown gps gps /sys/class/gpsdrv/gps/pwrsave
+    chown gps gps /sys/class/gpsdrv/gps/status
+
 service agpsd /system/bin/mtk_agpsd
     class main
     socket agpsd stream 660 gps system
@@ -1061,7 +1071,7 @@ service NvRAMAgent /system/bin/nvram_agent_binder
 		group system nvram
 
 service thermal_manager /system/bin/thermal_manager
-		user root
+    user root
     oneshot
 
 service thermal /system/bin/thermal

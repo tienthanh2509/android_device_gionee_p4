@@ -73,10 +73,6 @@ BOARD_SEPOLICY_UNION := \
        system.te \
        file_contexts
 
-# GPS
-TARGET_SPECIFIC_HEADER_PATH := device/wiko/rainbow/include
-
-
 TARGET_PREBUILT_KERNEL := device/wiko/rainbow/kernel
 TARGET_RECOVERY_FSTAB := device/wiko/rainbow/recovery.fstab
 

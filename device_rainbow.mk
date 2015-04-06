@@ -77,11 +77,12 @@ PRODUCT_COPY_FILES += \
 $(call inherit-product, build/target/product/full.mk)
 
 PRODUCT_PROPERTY_OVERRIDES := \
-	ro.mediatek.version.release=ALPS.KK1.MP1.V2.10 \
+	ro.mediatek.version.release=ALPS.W10.24.p0 \
 	ro.mediatek.platform=MT6582 \
 	ro.mediatek.chip_ver=S01 \
 	ro.mediatek.version.branch=KK1.MP1 \
 	ro.mediatek.version.sdk=2 \
+	ro.telephony.sim.count=2 \
 	persist.mtk.wcn.combo.chipid=-1
 
 PRODUCT_NAME := full_rainbow
