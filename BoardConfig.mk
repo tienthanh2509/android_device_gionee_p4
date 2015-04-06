@@ -45,7 +45,7 @@ WITH_DEXPREOPT := false
 DISABLE_DEXPREOPT := true
 
 # EGL settings
-BOARD_EGL_CFG := device/wiko/rainbow/egl.cfg
+BOARD_EGL_CFG := device/wiko/rainbow/rootdir/configs/egl.cfg
 USE_OPENGL_RENDERER := true
 
 TARGET_BOOTLOADER_BOARD_NAME := rainbow
