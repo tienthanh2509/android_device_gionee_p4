@@ -2,7 +2,7 @@
 -include vendor/wiko/rainbow/BoardConfigVendor.mk
 
 
-# Board ------>
+# Board
 TARGET_BOARD_PLATFORM := mt6582
 TARGET_NO_BOOTLOADER := true
 TARGET_ARCH := arm
@@ -10,6 +10,7 @@ TARGET_ARCH_VARIANT := armv7-a-neon
 TARGET_ARCH_VARIANT_CPU := cortex-a7
 ARCH_ARM_HAVE_VFP := true
 ARCH_ARM_HAVE_NEON := true
+ARCH_ARM_HAVE_TLS_REGISTER := true
 TARGET_CPU_ABI := armeabi-v7a
 TARGET_CPU_ABI2 := armeabi
 TARGET_CPU_SMP := true
@@ -35,7 +36,6 @@ TARGET_USERIMAGES_SPARSE_EXT_DISABLED := false
 
 BOARD_CUSTOM_BOOTIMG_MK := device/wiko/rainbow/bootimg.mk
 BOARD_MKBOOTIMG_ARGS := --board 1336460062
-# <------ Board 
 
 # Flags
 TARGET_GLOBAL_CFLAGS   += -mfpu=neon -mfloat-abi=softfp
@@ -64,7 +64,7 @@ DISABLE_DEXPREOPT := true
 
 #Camera
 USE_CAMERA_STUB := true
-BOARD_USE_JPEG := true
+# BOARD_USE_JPEG := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH := true
@@ -83,6 +83,7 @@ BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/wiko/rainbow/bluetooth
 # EGL settings
 BOARD_EGL_CFG := device/wiko/rainbow/rootdir/configs/egl.cfg
 USE_OPENGL_RENDERER := true
+BOARD_EGL_WORKAROUND_BUG_10194508 := true
 
 TARGET_PROVIDES_GRALLOC := true
 TARGET_LIBAGL_USE_GRALLOC_COPYBITS := true

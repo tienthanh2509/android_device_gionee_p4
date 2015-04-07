@@ -45,6 +45,7 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     device/wiko/rainbow/rootdir/root/fstab.mt6582:root/fstab.mt6582 \
+    device/wiko/rainbow/rootdir/root/init.recovery.mt6582.rc:root/init.recovery.mt6582.rc \
     device/wiko/rainbow/rootdir/root/init.rc:root/init.rc \
     device/wiko/rainbow/rootdir/root/init.mt6582.rc:root/init.mt6582.rc \
     device/wiko/rainbow/rootdir/root/init.project.rc:root/init.project.rc \
@@ -83,6 +84,11 @@ PRODUCT_PROPERTY_OVERRIDES := \
 	ro.mediatek.version.branch=KK1.MP1 \
 	ro.mediatek.version.sdk=2 \
 	ro.telephony.sim.count=2 \
+	ro.allow.mock.location=0 \
+	ro.debuggable=1 \
+	persist.sys.usb.config=mtp,adb \
+	persist.service.adb.enable=1 \
+	persist.service.debuggable=1 \
 	persist.mtk.wcn.combo.chipid=-1
 
 PRODUCT_NAME := full_rainbow
