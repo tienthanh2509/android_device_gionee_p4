@@ -30,10 +30,6 @@ ril.active.md=0
 
 ro.telephony.ril_class=SproutRIL
 
-
-##ws008 add prop
-service.adb.root=1
-
 ro.nfc.port=I2C
 mtknfc.status.type=unknow
 
