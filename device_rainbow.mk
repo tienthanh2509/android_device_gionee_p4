@@ -1,7 +1,7 @@
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # The gps config appropriate for this device
-$(call inherit-product, device/common/gps/gps_us_supl.mk)
+# $(call inherit-product, device/common/gps/gps_us_supl.mk)
 
 $(call inherit-product-if-exists, vendor/wiko/rainbow/rainbow-vendor.mk)
 
@@ -51,7 +51,6 @@ PRODUCT_COPY_FILES += \
     device/wiko/rainbow/rootdir/root/init.rc:root/init.rc \
     device/wiko/rainbow/rootdir/root/init.mt6582.rc:root/init.mt6582.rc \
     device/wiko/rainbow/rootdir/root/init.project.rc:root/init.project.rc \
-    device/wiko/rainbow/rootdir/root/init.usb.rc:root/init.usb.rc \
     device/wiko/rainbow/rootdir/root/factory_init.rc:root/factory_init.rc \
     device/wiko/rainbow/rootdir/root/init.fuse.rc:root/init.fuse.rc \
     device/wiko/rainbow/rootdir/root/init.modem.rc:root/init.modem.rc \
