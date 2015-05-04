@@ -467,7 +467,7 @@ on property:sys.mtk.no.factoryimage=0
 
 #mass_storage,adb,acm
 on property:sys.usb.com_config=0
-    write /sys/class/android_usb/android0/iSerial "0123456789ABCDEF" 
+    write /sys/class/android_usb/android0/iSerial $ro.serialno
     write /sys/class/android_usb/android0/enable 0
     write /sys/class/android_usb/android0/idVendor 0bb4
     write /sys/class/android_usb/android0/idProduct 0005

@@ -413,6 +413,12 @@ on post-fs-data
     #otp
     chmod 0660 /proc/driver/otp
     chown root system /proc/driver/otp
+
+    #sn
+    chmod 0664 /sys/class/android_usb/android0/iSerial
+    chown root system /sys/class/android_usb/android0/iSerial
+
+
 # End of adding by MTK drivers
 # -----------------------
 
@@ -982,16 +988,16 @@ service mtkbt /system/bin/mtkbt
 service agpsd /system/bin/mtk_agpsd
     class main
     socket agpsd stream 660 gps system
-    socket agpsd2 stream 660 gps system
-    socket agpsd3 stream 660 gps system
+    socket agpsd2 stream 660 gps inet
+    socket agpsd3 stream 660 gps inet
     user gps
-    group gps ccci inet sdcard_r sdcard_rw misc
+    group gps ccci inet sdcard_r sdcard_rw misc radio
 
 service mnld /system/xbin/mnld
+    class main
     user gps
-    group nvram gps inet misc sdcard_rw sdcard_r media_rw
+    group system gps inet misc sdcard_rw sdcard_r media_rw
     socket mnld stream 660 gps system
-    disabled
 
 service ipod /system/bin/ipod
     user root
@@ -1083,7 +1089,8 @@ service thermald /system/bin/thermald
     group system
 
 service sn /system/bin/sn
-    user root
+    user system
+    group system sdcard_r
     oneshot
 
 
