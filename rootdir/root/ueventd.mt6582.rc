@@ -128,6 +128,8 @@
 /sys/devices/platform/leds-mt65xx/leds/green   delay_off      0664  system   system
 /sys/devices/platform/leds-mt65xx/leds/red   delay_on      0664  system   system
 /sys/devices/platform/leds-mt65xx/leds/red   delay_off      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/blue   delay_on      0664  system   system
+/sys/devices/platform/leds-mt65xx/leds/blue   delay_off      0664  system   system
 
 #NFC device
 /dev/msr3110              0666   root       root
@@ -156,6 +158,3 @@
 #touch
 /dev/touch              0660   root       system
 /dev/hotknot             0660    root system
-
-# wangyk add for fingerprint
-/dev/esfp0                0666    root   root
