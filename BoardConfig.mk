@@ -52,11 +52,11 @@ TARGET_PREBUILT_KERNEL := device/wiko/rainbow/kernel
 TARGET_RECOVERY_FSTAB := device/wiko/rainbow/rootdir/root/recovery.fstab
 
 # Philz Recovery
-RECOVERY_VARIANT := philz
-BOARD_USE_MTK_LAYOUT := true
-BOARD_USE_NTFS_3G := false
-BOARD_HAS_NO_FB2PNG := true
-NO_AROMA_FILE_MANAGER := true
+#RECOVERY_VARIANT := philz
+#BOARD_USE_MTK_LAYOUT := true
+#BOARD_USE_NTFS_3G := false
+#BOARD_HAS_NO_FB2PNG := true
+#NO_AROMA_FILE_MANAGER := true
 
 # Deodex
 WITH_DEXPREOPT := false
