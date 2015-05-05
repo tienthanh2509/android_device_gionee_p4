@@ -10,8 +10,6 @@ import /init.${ro.hardware}.rc
 import /init.trace.rc
 import /init.carrier.rc
 
-import init.xlog.rc
-
 on early-init
     # Set init and its forked children's oom_adj.
     write /proc/1/oom_adj -16
@@ -508,6 +506,10 @@ service servicemanager /system/bin/servicemanager
     onrestart restart surfaceflinger
     onrestart restart drm
 
+    # MTK
+    onrestart restart aal
+    onrestart restart bwc
+
 service vold /system/bin/vold
     class core
     socket vold stream 0660 root mount
@@ -519,8 +521,9 @@ service netd /system/bin/netd
     socket dnsproxyd stream 0660 root inet
     socket mdns stream 0660 root system
 
-service debuggerd /system/bin/debuggerd
-    class main
+# NOTE: debuggerd is replaced by aee_aed on MTK.
+
+# NOTE: MTK rild configuration is in init.modem.rc; stock definition removed.
 
 service surfaceflinger /system/bin/surfaceflinger
     class main
@@ -539,12 +542,12 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
 service drm /system/bin/drmserver
     class main
     user drm
-    group drm system audio sdcard_rw net_raw inet drmrpc media sdcard_r media_rw
+    group drm system inet drmrpc
 
 service media /system/bin/mediaserver
     class main
     user root
-    group audio camera graphics inet net_bt net_bt_admin net_bw_acct drmrpc qcom_diag mediadrm media sdcard_r nvram ccci radio system
+    group audio camera graphics inet net_bt net_bt_admin net_bw_acct drmrpc media sdcard_r nvram ccci radio system
     ioprio rt 4
 
 service bootanim /system/bin/bootanimation
