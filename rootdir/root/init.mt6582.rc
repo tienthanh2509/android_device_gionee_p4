@@ -3,6 +3,7 @@ import /init.mt6582.usb.rc
 import /init.modem.rc
 import /init.project.rc
 import /init.fuse.rc
+import /init.xlog.rc
 ###########
 on early-init
     setprop ro.mtk.hardware mt6582
