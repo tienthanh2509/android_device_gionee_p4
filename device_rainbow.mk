@@ -26,9 +26,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lights.mt6582
 
-PRODUCT_PACKAGES += \
-    libmtkrilw
-
 # audio
 PRODUCT_PACKAGES += \
     audio.r_submix.default
@@ -95,4 +92,4 @@ PRODUCT_PROPERTY_OVERRIDES := \
 PRODUCT_NAME := full_rainbow
 PRODUCT_DEVICE := rainbow
 
-$(call inherit-product, frameworks/native/build/phone-xhdpi-2048-dalvik-heap.mk)
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
