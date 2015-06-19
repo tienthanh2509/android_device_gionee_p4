@@ -5,7 +5,7 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 $(call inherit-product-if-exists, vendor/wiko/rainbow/rainbow-vendor.mk)
 
-PRODUCT_CHARACTERISTICS := nosdcard
+PRODUCT_CHARACTERISTICS := default
 
 DEVICE_PACKAGE_OVERLAYS += device/wiko/rainbow/overlay
 

@@ -23,9 +23,12 @@ key 228   POUND
 key 227   STAR
 key 231   CALL
 key 61    CALL
-
+key 232   DPAD_CENTER
+key 108   DPAD_DOWN
+key 103   DPAD_UP
 key 102   HOME
-
+key 105   DPAD_LEFT
+key 106   DPAD_RIGHT
 key 115   VOLUME_UP         WAKE_DROPPED
 key 114   VOLUME_DOWN       WAKE_DROPPED
 key 113   MUTE              WAKE_DROPPED
@@ -91,3 +94,6 @@ key 163   MEDIA_NEXT          WAKE
 key 165   MEDIA_PREVIOUS      WAKE
 key 168   MEDIA_REWIND        WAKE
 key 159   MEDIA_FAST_FORWARD  WAKE
+
+key 250   HALL_O              WAKE
+key 251   HALL_C              WAKE

@@ -1121,3 +1121,11 @@ service MtkCodecService /system/bin/MtkCodecService
     class main
     user root
     group audio media sdcard_r
+
+# Gionee chengx 20140403 add for CR01167528 begin
+#GIONEE: chenle 2014-10-10 modify CR01392915 begin for GMS no root process
+service NvRAMBackupAgent /system/bin/nvram_backup_binder
+	user system
+	group system nvram
+#GIONEE: chenle 2014-10-10 modify CR01392915 end for GMS no root process
+# Gionee chengx 20140403 add for CR01167528 end
