@@ -117,6 +117,7 @@ TARGET_POWERHAL_VARIANT := cm
 BOARD_SEPOLICY_DIRS := \
        device/wiko/rainbow/sepolicy
 
+#BOARD_SEPOLICY_UNION := file_contexts
 BOARD_SEPOLICY_UNION := \
        device.te \
        app.te \
@@ -143,12 +144,19 @@ WIFI_DRIVER_FW_PATH_P2P:=P2P
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TW_EXTERNAL_STORAGE_PATH := "/external_sd"
 TW_EXTERNAL_STORAGE_MOUNT_POINT := "external_sd"
+TW_INTERNAL_STORAGE_PATH := "/internal_sd"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "internal_sd"
 TW_DEFAULT_EXTERNAL_STORAGE := true
 TW_INCLUDE_JB_CRYPTO := true
 TW_CRYPTO_FS_TYPE := "ext4"
 TW_CRYPTO_REAL_BLKDEV := "/dev/block/platform/mtk-msdc.0/by-num/p6"
 TW_CRYPTO_MNT_POINT := "/data"
 TW_CRYPTO_FS_OPTIONS := "nosuid,nodev,noatime,discard,noauto_da_alloc,data=ordered"
-TW_BRIGHTNESS_PATH := /sys/class/leds/lcd-backlight/brightness
+TW_BRIGHTNESS_PATH := "/sys/class/leds/lcd-backlight/brightness"
 TW_MAX_BRIGHTNESS := 255
-TW_NO_USB_STORAGE := false
+TW_HAS_USB_STORAGE := true
+TW_HAS_MTP := true
+CUSTOM_LUN_FILE := "/sys/devices/platform/mt_usb/musb-hdrc.0/gadget/lun%d/file"
+TW_CUSTOM_CPU_TEMP_PATH := "/sys/class/thermal/thermal_zone2/temp"
+TW_ALWAYS_RMRF := true
+
