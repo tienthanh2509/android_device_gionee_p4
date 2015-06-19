@@ -1,0 +1,16 @@
+# TWRP for Gionee Pioneer P4 built by Phạm Thành
+/boot		emmc		/dev/bootimg
+/cache		ext4		/dev/block/mmcblk0p7
+/data		ext4		/dev/block/mmcblk0p8
+/misc		emmc		/dev/misc
+/recovery	emmc		/dev/recovery
+/system		ext4		/dev/block/mmcblk0p6
+/internal_sd	vfat	        /dev/block/mmcblk0p9	flags=display="Internal Storage";settingsstorage;wipeingui
+/external_sd	vfat		/dev/block/mmcblk1p1	/dev/block/mmcblk1	flags=display="Micro SD";storage;wipeingui;removable
+/nvram		emmc		/dev/nvram		flags=display="Nvram";backup=1
+/logo		emmc		/dev/logo		flags=display="logo";backup=1
+#/expdb		emmc		/dev/expdb		flags=display="expdb";backup=1
+/uboot		emmc		/dev/uboot		flags=display="Uboot";backup=1
+#/ebr1		emmc		/dev/block/mmcblk0p1		flags=display="ebr1";backup=1
+#/mbr		emmc		/dev/mbr		flags=display="mbr";backup=1
+# TWRP for Gionee Pioneer P4 built by Phạm Thành
